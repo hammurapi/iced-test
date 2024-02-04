@@ -1,4 +1,4 @@
-use iced::{widget::text_input, Sandbox, Settings};
+use iced::{executor, widget::text_input, Application, Command, Settings, Theme};
 
 struct MyApplication {
     text: String,
@@ -9,23 +9,31 @@ enum MyMessage {
     Edit(String),
 }
 
-impl Sandbox for MyApplication {
+impl Application for MyApplication {
     type Message = MyMessage;
+    type Executor = executor::Default;
+    type Theme = Theme;
+    type Flags = ();
 
-    fn new() -> Self {
-        Self {
-            text: String::from("Test"),
-        }
+    fn new(_falgs: Self::Flags) -> (MyApplication, Command<MyMessage>) {
+        (
+            Self {
+                text: String::from("Test"),
+            },
+            Command::none(),
+        )
     }
 
     fn title(&self) -> String {
         String::from("iced test")
     }
 
-    fn update(&mut self, message: Self::Message) {
+    fn update(&mut self, message: Self::Message) -> iced::Command<MyMessage> {
         match message {
             MyMessage::Edit(updated_text) => self.text = updated_text,
         }
+
+        Command::none()
     }
 
     fn view(&self) -> iced::Element<'_, Self::Message> {
