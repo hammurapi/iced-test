@@ -1,15 +1,26 @@
-use iced::{widget::text, Sandbox, Settings};
+use std::default;
 
-struct MyApplication;
+use iced::{
+    widget::{pane_grid::Edge, text, text_input},
+    Sandbox, Settings,
+};
 
-#[derive(Debug)]
-enum MyMessage {}
+struct MyApplication {
+    text: String,
+}
+
+#[derive(Debug, Clone)]
+enum MyMessage {
+    Edit(String),
+}
 
 impl Sandbox for MyApplication {
     type Message = MyMessage;
 
     fn new() -> Self {
-        Self
+        Self {
+            text: String::from("Test"),
+        }
     }
 
     fn title(&self) -> String {
@@ -17,11 +28,14 @@ impl Sandbox for MyApplication {
     }
 
     fn update(&mut self, message: Self::Message) {
-        match message {}
+        match message {
+            MyMessage::Edit(updated_text) => self.text = updated_text,
+        }
     }
 
     fn view(&self) -> iced::Element<'_, Self::Message> {
-        text("Hello world").into()
+        // text("Hello world").into()
+        text_input("", &self.text).on_input(MyMessage::Edit).into()
     }
 }
 
