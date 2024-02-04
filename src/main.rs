@@ -1,9 +1,4 @@
-use std::default;
-
-use iced::{
-    widget::{pane_grid::Edge, text, text_input},
-    Sandbox, Settings,
-};
+use iced::{widget::text_input, Sandbox, Settings};
 
 struct MyApplication {
     text: String,
