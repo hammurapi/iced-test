@@ -7,6 +7,7 @@ struct MyApplication {
 #[derive(Debug, Clone)]
 enum MyMessage {
     Edit(String),
+    Sumbitted,
 }
 
 impl Application for MyApplication {
@@ -31,6 +32,7 @@ impl Application for MyApplication {
     fn update(&mut self, message: Self::Message) -> iced::Command<MyMessage> {
         match message {
             MyMessage::Edit(updated_text) => self.text = updated_text,
+            MyMessage::Sumbitted => {}
         }
 
         Command::none()
@@ -38,7 +40,10 @@ impl Application for MyApplication {
 
     fn view(&self) -> iced::Element<'_, Self::Message> {
         // text("Hello world").into()
-        text_input("", &self.text).on_input(MyMessage::Edit).into()
+        text_input("", &self.text)
+            .on_input(MyMessage::Edit)
+            .on_submit(MyMessage::Sumbitted)
+            .into()
     }
 }
 
