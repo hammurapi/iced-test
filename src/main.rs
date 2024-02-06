@@ -43,6 +43,7 @@ impl Application for MyApplication {
         text_input("", &self.text)
             .on_input(MyMessage::Edit)
             .on_submit(MyMessage::Sumbitted)
+            .padding(5)
             .into()
     }
 }
